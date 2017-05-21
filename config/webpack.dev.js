@@ -2,7 +2,13 @@ const webpack = require('webpack')
 const path = require('path')
 
 module.exports = {
-  entry: './web/index.js',
+  devtool: 'cheap-module-eval-source-map',
+  entry: {
+    main: [
+      require.resolve('./polyfills-client'),
+      path.resolve(__dirname, '..', 'web/index.js')
+    ]
+  },
   output: {
     filename: '[name].js',
     path: path.resolve(__dirname, '..', 'public/dist'),
@@ -17,7 +23,32 @@ module.exports = {
           {
             loader: 'babel-loader',
             options: {
-              presets: ['env', 'stage-2', 'react']
+              presets: [
+                [
+                  'env',
+                  {
+                    targets: {
+                      ie: 9
+                    },
+                    modules: false,
+                    useBuiltIns: false,
+                    loose: true,
+                    debug: true
+                  }
+                ],
+                'stage-2',
+                'react'
+              ],
+              plugins: [
+                [
+                  'transform-runtime',
+                  {
+                    helpers: true,
+                    polyfill: false,
+                    regenerator: true // includes regenerator runtime
+                  }
+                ]
+              ]
             }
           }
         ]
