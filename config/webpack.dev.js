@@ -16,9 +16,9 @@ module.exports = {
   },
   module: {
     rules: [
-      {
+      { // any.js
         test: /.js$/,
-        exclude: /node_modules/,
+        include: path.resolve(__dirname, '..', 'web'),
         use: [
           {
             loader: 'babel-loader',
@@ -53,6 +53,32 @@ module.exports = {
             }
           }
         ]
+      },
+      { // any.scss
+        test: /.s?css$/,
+        use: [
+          'style-loader',
+          'css-loader',
+          {
+            loader: 'postcss-loader',
+            options: {
+              plugins: loader => [require('autoprefixer')()]
+            }
+          },
+          {
+            loader: 'sass-loader',
+            options: {
+              includePaths: [path.resolve(__dirname, '../web')]
+            }
+          }
+        ]
+      },
+      { // any images
+        test: /\.(jpe?g|png|gif|bmp)$/,
+        loader: 'url-loader',
+        options: {
+          limit: 50000
+        }
       }
     ]
   },
@@ -63,7 +89,7 @@ module.exports = {
     }),
 
     new webpack.HotModuleReplacementPlugin(),
-    new webpack.NamedModulesPlugin(),
+    new webpack.NamedModulesPlugin()
   ],
   devServer: {
     port: 8001,
