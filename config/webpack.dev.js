@@ -1,5 +1,8 @@
 const webpack = require('webpack')
 const path = require('path')
+const babelLoader = require('./utils/babelLoader.js')
+const cssLoader = require('./utils/cssLoader.js')
+const imageLoader = require('./utils/imageLoader.js')
 
 module.exports = {
   devtool: 'cheap-module-eval-source-map',
@@ -16,96 +19,10 @@ module.exports = {
   },
   module: {
     rules: [
-      { // any.js
-        test: /.js$/,
-        include: path.resolve(__dirname, '..', 'web'),
-        use: [
-          {
-            loader: 'babel-loader',
-            options: {
-              presets: [
-                [
-                  'env',
-                  {
-                    targets: {
-                      ie: 9
-                    },
-                    modules: false,
-                    useBuiltIns: false,
-                    loose: true,
-                    debug: true
-                  }
-                ],
-                'stage-2',
-                'react',
-                'react-hmre'
-              ],
-              plugins: [
-                [
-                  'transform-runtime',
-                  {
-                    helpers: true,
-                    polyfill: false,
-                    regenerator: true // includes regenerator runtime
-                  }
-                ]
-              ]
-            }
-          }
-        ]
-      },
-      { // any.module.scss
-        test: /\.module\.s?css$/,
-        use: [
-          'style-loader',
-          {
-            loader: 'css-loader',
-            options: {
-              modules: true,
-              importLoaders: 2,
-              localIdentName: '[name]__[local]___[hash:base64:5]'
-            }
-          },
-          {
-            loader: 'postcss-loader',
-            options: {
-              plugins: loader => [require('autoprefixer')()]
-            }
-          },
-          {
-            loader: 'sass-loader',
-            options: {
-              includePaths: [path.resolve(__dirname, '../web')]
-            }
-          }
-        ]
-      },
-      { // any.scss
-        test: /^((?!\.module\.).)*\.s?css$/,
-        use: [
-          'style-loader',
-          'css-loader',
-          {
-            loader: 'postcss-loader',
-            options: {
-              plugins: loader => [require('autoprefixer')()]
-            }
-          },
-          {
-            loader: 'sass-loader',
-            options: {
-              includePaths: [path.resolve(__dirname, '../web')]
-            }
-          }
-        ]
-      },
-      { // any images
-        test: /\.(jpe?g|png|gif|bmp)$/,
-        loader: 'url-loader',
-        options: {
-          limit: 50000
-        }
-      }
+      babelLoader.dev,
+      cssLoader.module.dev,
+      cssLoader.nonmodule.dev,
+      imageLoader,
     ]
   },
   plugins: [
