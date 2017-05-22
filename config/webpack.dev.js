@@ -54,8 +54,34 @@ module.exports = {
           }
         ]
       },
+      { // any.module.scss
+        test: /\.module\.s?css$/,
+        use: [
+          'style-loader',
+          {
+            loader: 'css-loader',
+            options: {
+              modules: true,
+              importLoaders: 2,
+              localIdentName: '[name]__[local]___[hash:base64:5]'
+            }
+          },
+          {
+            loader: 'postcss-loader',
+            options: {
+              plugins: loader => [require('autoprefixer')()]
+            }
+          },
+          {
+            loader: 'sass-loader',
+            options: {
+              includePaths: [path.resolve(__dirname, '../web')]
+            }
+          }
+        ]
+      },
       { // any.scss
-        test: /.s?css$/,
+        test: /^((?!\.module\.).)*\.s?css$/,
         use: [
           'style-loader',
           'css-loader',

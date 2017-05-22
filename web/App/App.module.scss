@@ -1,0 +1,16 @@
+@import 'styles/vars';
+
+.container {
+  font-size: $body-font-size;
+  background-color: $body-bg-color;
+}
+.heading1 {
+  font-size: 32px;
+}
+.pug {
+  background: $body-bg-color url('./pug.jpg') no-repeat left top;
+  height: 260px;
+}
+.caption {
+  background-color: rgba(#ffbf00, 0.4);
+}
