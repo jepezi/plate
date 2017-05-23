@@ -1,4 +1,5 @@
 const path = require('path')
+const ExtractTextPlugin = require('extract-text-webpack-plugin')
 const webPath = path.resolve(__dirname, '../../web')
 
 // any.module.scss (dev)
@@ -29,6 +30,37 @@ const cssModuleDev = {
   ]
 }
 
+// any.module.scss (prod)
+const cssModuleProd = {
+  test: /\.module\.s?css$/,
+  use: ExtractTextPlugin.extract({
+    fallback: 'style-loader',
+    use: [
+      {
+        loader: 'css-loader',
+        options: {
+          modules: true,
+          importLoaders: 2,
+          localIdentName: '[hash:base64:8]',
+          minimize: true
+        }
+      },
+      {
+        loader: 'postcss-loader',
+        options: {
+          plugins: loader => [require('autoprefixer')()]
+        }
+      },
+      {
+        loader: 'sass-loader',
+        options: {
+          includePaths: [webPath]
+        }
+      }
+    ]
+  })
+}
+
 // any.scss (dev)
 const cssNonModuleDev = {
   test: /^((?!\.module\.).)*\.s?css$/,
@@ -50,11 +82,43 @@ const cssNonModuleDev = {
   ]
 }
 
+// any.scss (prod)
+const cssNonModuleProd = {
+  test: /^((?!\.module\.).)*\.s?css$/,
+  use: ExtractTextPlugin.extract({
+    fallback: 'style-loader',
+    use: [
+      {
+        loader: 'css-loader',
+        options: {
+          importLoaders: 2,
+          localIdentName: '[hash:base64:8]',
+          minimize: true
+        }
+      },
+      {
+        loader: 'postcss-loader',
+        options: {
+          plugins: loader => [require('autoprefixer')()]
+        }
+      },
+      {
+        loader: 'sass-loader',
+        options: {
+          includePaths: [webPath]
+        }
+      }
+    ]
+  })
+}
+
 module.exports = {
   module: {
     dev: cssModuleDev, // style|css?module|post|sass
+    prod: cssModuleProd // extract - css?module|post|sass
   },
   nonmodule: {
     dev: cssNonModuleDev, // style|css|post|sass
+    prod: cssNonModuleProd // extract - css|post|sass
   }
 }
