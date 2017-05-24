@@ -9,7 +9,7 @@ const ExtractTextPlugin = require('extract-text-webpack-plugin')
 
 module.exports = {
   bail: true,
-  devtool: 'source-map',
+  // devtool: 'source-map',
   entry: {
     main: [
       require.resolve('./polyfills-client'),
@@ -63,6 +63,16 @@ module.exports = {
       filename: 'webpack-assets.json',
       path: path.resolve(__dirname, '..'),
       prettyPrint: true
+    }),
+    new webpack.SourceMapDevToolPlugin({
+      test: /.js$/,
+      filename: '[file].map',
+      append: '\n//# sourceMappingURL=/build/static/js/[url]'
+    }),
+    new webpack.SourceMapDevToolPlugin({
+      test: /.css$/,
+      filename: '[file].map',
+      append: '\n//# sourceMappingURL=/build/static/css/[url]'
     }),
     new webpack.LoaderOptionsPlugin({
       minimize: true,

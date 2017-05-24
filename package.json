@@ -9,7 +9,8 @@
     "serve": "node server/index.js",
     "clean": "rimraf ./public/build",
     "prebuild": "npm run clean",
-    "build": "webpack --config config/webpack.prod.js"
+    "build": "NODE_ENV=production webpack --config config/webpack.prod.js --progress",
+    "serve-prod": "NODE_ENV=production node server/index.js"
   },
   "devDependencies": {
     "assets-webpack-plugin": "^3.5.1",
@@ -40,6 +41,7 @@
   "dependencies": {
     "babel-runtime": "^6.23.0",
     "classnames": "^2.2.5",
+    "compression": "^1.6.2",
     "express": "^4.15.2",
     "isomorphic-fetch": "^2.2.1",
     "object-assign": "^4.1.1",
