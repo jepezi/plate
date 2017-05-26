@@ -11,10 +11,7 @@ module.exports = {
   bail: true,
   // devtool: 'source-map',
   entry: {
-    main: [
-      require.resolve('./polyfills-client'),
-      path.resolve(__dirname, '..', 'web/index.js')
-    ],
+    main: path.resolve(__dirname, '..', 'web/index.js'),
     vendor: [require.resolve('./polyfills-client')].concat(vendors)
   },
   output: {
