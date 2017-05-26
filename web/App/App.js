@@ -1,22 +1,27 @@
 import React from 'react'
 import cx from 'classnames'
 import css from './App.module.scss'
+import {Link} from 'react-router'
 
 class App extends React.Component {
   render() {
-    const containerStyles = cx(
+    const containerCss = cx(
       css.container,
       css.padding20,
     )
-    const headingStyle = cx(
+    const headingCss = cx(
       css.heading1,
       'blue',
     )
     return (
-      <div className={containerStyles}>
-        <h1 className={headingStyle}>Hello</h1>
-        <div className={css.pug}>
-          <div className={css.caption}>Pug is the best</div>
+      <div className={containerCss}>
+        <h1 className={headingCss}>App</h1>
+        <ul>
+          <li><Link to="/">Home</Link></li>
+          <li><Link to="/about">About</Link></li>
+        </ul>
+        <div className={css.content}>
+          {this.props.children}
         </div>
       </div>
     )
