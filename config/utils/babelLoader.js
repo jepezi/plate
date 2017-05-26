@@ -60,7 +60,33 @@ const prod = {
   ]
 }
 
+const server = {
+  test: /.js$/,
+  exclude: /node_modules/,
+  use: [
+    {
+      loader: 'babel-loader',
+      options: {
+        presets: [
+          [
+            'env',
+            {
+              targets: {
+                node: 'current'
+              }
+            }
+          ],
+          'stage-2',
+          'react'
+        ],
+        plugins: [transformRuntime]
+      }
+    }
+  ]
+}
+
 module.exports = {
   dev, // add preset 'react-hmre'
-  prod // add plugin react optimize
+  prod, // add plugin react optimize
+  server // add plugin react optimize
 }
