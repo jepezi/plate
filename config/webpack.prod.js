@@ -1,5 +1,6 @@
 const webpack = require('webpack')
 const path = require('path')
+const paths = require('./paths')
 const vendors = require('./vendors')
 const babelLoader = require('./utils/babelLoader.js')
 const cssLoader = require('./utils/cssLoader.js')
@@ -9,15 +10,14 @@ const ExtractTextPlugin = require('extract-text-webpack-plugin')
 
 module.exports = {
   bail: true,
-  // devtool: 'source-map',
   entry: {
-    main: path.resolve(__dirname, '..', 'web/index.js'),
+    main: path.resolve(paths.src, 'index.js'),
     vendor: [require.resolve('./polyfills-client')].concat(vendors)
   },
   output: {
-    path: path.resolve(__dirname, '..', 'public', 'build'),
-    filename: 'static/js/[name].[chunkhash].js',
-    chunkFilename: 'static/js/[name].[chunkhash].chunk.js',
+    path: paths.build,
+    filename: 'js/[name].[chunkhash].js',
+    chunkFilename: 'js/[name].[chunkhash].chunk.js',
     publicPath: '/build/'
   },
   module: {
@@ -29,9 +29,9 @@ module.exports = {
     ]
   },
   resolve: {
-    modules: [path.resolve(__dirname, '..', 'web'), 'node_modules']
+    modules: [paths.src, 'node_modules']
   },
-  recordsPath: path.resolve(__dirname, '../webpack-records.json'),
+  recordsPath: path.resolve(paths.root, 'webpack-records.json'),
   plugins: [
     new webpack.DefinePlugin({
       'process.env': {
@@ -53,7 +53,7 @@ module.exports = {
       minChunks: 4 // number of chunks containing a module before it's moved into common chunk. Must be >= 4.
     }),
     new ExtractTextPlugin({
-      filename: 'static/css/[name].[contenthash].css',
+      filename: 'css/[name].[contenthash].css',
       allChunks: true
     }),
     new AssetsPlugin({
@@ -64,12 +64,12 @@ module.exports = {
     new webpack.SourceMapDevToolPlugin({
       test: /.js$/,
       filename: '[file].map',
-      append: '\n//# sourceMappingURL=/build/static/js/[url]'
+      append: '\n//# sourceMappingURL=/build/js/[url]'
     }),
     new webpack.SourceMapDevToolPlugin({
       test: /.css$/,
       filename: '[file].map',
-      append: '\n//# sourceMappingURL=/build/static/css/[url]'
+      append: '\n//# sourceMappingURL=/build/css/[url]'
     }),
     new webpack.LoaderOptionsPlugin({
       minimize: true,

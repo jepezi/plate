@@ -1,5 +1,6 @@
 const webpack = require('webpack')
 const path = require('path')
+const paths = require('./paths')
 const vendors = require('./vendors')
 const babelLoader = require('./utils/babelLoader.js')
 const cssLoader = require('./utils/cssLoader.js')
@@ -11,16 +12,15 @@ const nodeExternals = require('webpack-node-externals')
 module.exports = {
   bail: true,
   target: 'node',
-  // devtool: 'source-map',
   entry: {
     main: [
       require.resolve('./polyfills-server'),
-      path.resolve(__dirname, '..', 'server/matchRoute.js')
+      path.resolve(paths.root, 'server', 'matchRoute.js')
     ]
   },
   output: {
-    path: path.resolve(__dirname, '..', 'public', 'build'),
-    filename: 'static/js/matchRoute.js',
+    path: paths.build,
+    filename: 'js/matchRoute.js',
     publicPath: '/build/',
     libraryTarget: 'commonjs2'
   },
@@ -34,7 +34,7 @@ module.exports = {
     ]
   },
   resolve: {
-    modules: [path.resolve(__dirname, '..', 'web'), 'node_modules']
+    modules: [paths.src, 'node_modules']
   },
   plugins: [
     new webpack.DefinePlugin({

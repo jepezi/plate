@@ -1,9 +1,10 @@
 const path = require('path')
 const responder = require('./responder')
+const paths = require('../config/paths')
 
 // Pull in our compiled renderer
 const matchRoute = require(
-  path.join(__dirname, '..', 'public/build/static/js/matchRoute.js')
+  path.resolve(paths.build, 'js/matchRoute.js')
 ).default
 
 module.exports = function(req, res) {

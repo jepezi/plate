@@ -1,5 +1,6 @@
 const webpack = require('webpack')
 const path = require('path')
+const paths = require('./paths')
 const babelLoader = require('./utils/babelLoader.js')
 const cssLoader = require('./utils/cssLoader.js')
 const imageLoader = require('./utils/imageLoader.js')
@@ -9,12 +10,12 @@ module.exports = {
   entry: {
     main: [
       require.resolve('./polyfills-client'),
-      path.resolve(__dirname, '..', 'web/index.js')
+      path.resolve(paths.src, 'index.js')
     ]
   },
   output: {
     filename: '[name].js',
-    path: path.resolve(__dirname, '..', 'public/dist'),
+    path: paths.build,
     publicPath: 'http://localhost:8001/'
   },
   module: {

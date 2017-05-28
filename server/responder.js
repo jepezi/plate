@@ -2,9 +2,10 @@ const path = require('path')
 const React = require('react')
 const ReactDOMServer = require('react-dom/server')
 const getMarkupWithAssets = require('./getMarkupWithAssets')
+const paths = require('../config/paths')
 
 // Make markup string that has main, vendor, and inlined webpack manifest
-const filepath = path.resolve(__dirname, '..', 'public', 'ssr.html')
+const filepath = path.resolve(paths.public, 'ssr.html')
 const markup = getMarkupWithAssets(filepath)
 
 module.exports = function(res) {

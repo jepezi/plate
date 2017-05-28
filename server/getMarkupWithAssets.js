@@ -1,9 +1,10 @@
 const fs = require('fs')
 const path = require('path')
-
+const paths = require('../config/paths')
 const stat = require('../webpack-assets.json')
+
 const webpackManifest = fs.readFileSync(
-  path.join(__dirname, '..', 'public', stat.manifest.js),
+  path.join(paths.public, stat.manifest.js),
   'utf-8'
 )
 
