@@ -1,10 +1,15 @@
 import './index.scss'
 import React from 'react'
 import ReactDOM from 'react-dom'
-import {Router, browserHistory} from 'react-router'
+import {match, Router, browserHistory} from 'react-router'
 import routes from './routes'
 
-ReactDOM.render(
-  <Router history={browserHistory} routes={routes} />,
-  document.getElementById('app')
+match(
+  { history: browserHistory, routes },
+  (error, redirectLocation, renderProps) => {
+    ReactDOM.render(
+      <Router {...renderProps} />,
+      document.getElementById('app')
+    )
+  }
 )
