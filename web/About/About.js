@@ -15,9 +15,8 @@ class About extends React.Component {
 }
 
 function mapState(s) {
-  console.warn(s)
   return {
-    count: s,
+    count: s.counter,
   }
 }
 
