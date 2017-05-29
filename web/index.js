@@ -4,6 +4,7 @@ import ReactDOM from 'react-dom'
 import {match, Router, browserHistory} from 'react-router'
 import routes from './routes'
 import {createStore} from 'redux'
+import { Provider } from 'react-redux'
 
 function counter(state = 0, action) {
   switch (action.type) {
@@ -18,13 +19,15 @@ function counter(state = 0, action) {
 const store = createStore(counter)
 store.subscribe(() => console.warn(store.getState()))
 console.warn(store.getState())
-store.dispatch({type: 'INCREMENT'})
+// store.dispatch({type: 'INCREMENT'})
 
 match(
   { history: browserHistory, routes },
   (error, redirectLocation, renderProps) => {
     ReactDOM.render(
-      <Router {...renderProps} />,
+      <Provider store={store}>
+        <Router {...renderProps} />
+      </Provider>,
       document.getElementById('app')
     )
   }

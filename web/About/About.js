@@ -1,20 +1,35 @@
-import React, {PropTypes} from 'react';
+import React from 'react'
+import { connect } from 'react-redux'
 
 class About extends React.Component {
-  state = {count: 0}
   render() {
     return (
       <div>
         <h1>About</h1>
         <div>
-          <button onClick={this._handleClick}>Click {this.state.count}</button>
+          <button onClick={this.props.handleClick}>Click {this.props.count}</button>
         </div>
       </div>
     )
   }
-  _handleClick = e => {
-    this.setState(s => ({count: s.count + 1}))
+}
+
+function mapState(s) {
+  console.warn(s)
+  return {
+    count: s,
   }
 }
 
-export default About
+function mapDispatch(dispatch) {
+  return {
+    handleClick: () => {
+      dispatch({type: 'INCREMENT'})
+    },
+  }
+}
+
+export default connect(
+  mapState,
+  mapDispatch
+)(About)
