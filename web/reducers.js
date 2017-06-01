@@ -11,8 +11,31 @@ function counter(state = 0, action) {
   }
 }
 
+function posts(state = {}, action) {
+  switch (action.type) {
+  case 'LOAD_POSTS_PENDING':
+    return {
+      isRejected: false,
+      data: null,
+    }
+  case 'LOAD_POSTS_FULFILLED':
+    return {
+      isRejected: false,
+      data: action.payload,
+    }
+  case 'LOAD_POSTS_REJECTED':
+    return {
+      isRejected: true,
+      error: action.payload,
+    }
+  default:
+    return state
+  }
+}
+
 const reducers = combineReducers({
   counter,
+  posts,
 })
 
 export default reducers
