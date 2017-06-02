@@ -3,22 +3,10 @@ import React from 'react'
 import ReactDOM from 'react-dom'
 import {match, Router, browserHistory} from 'react-router'
 import routes from './routes'
-import {createStore, applyMiddleware} from 'redux'
 import { Provider } from 'react-redux'
-import reducers from './reducers'
-import promiseMiddleware from 'redux-promise-middleware'
+import configureStore from './store/configureStore'
 
-function thunk({ dispatch, getState }) {
-  return next => action =>
-    typeof action === 'function' ?
-      action(dispatch, getState) :
-      next(action)
-}
-
-const store = createStore(
-  reducers,
-  applyMiddleware(thunk, promiseMiddleware())
-)
+const store = configureStore(window.__REDUXDATA__)
 // store.subscribe(() => console.warn(store.getState()))
 // console.warn(store.getState())
 // store.dispatch({type: 'INCREMENT'})

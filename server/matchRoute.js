@@ -3,10 +3,12 @@ import { match, RouterContext } from 'react-router'
 import routes from '../web/routes'
 import {createStore} from 'redux'
 import {Provider} from 'react-redux'
-import reducers from '../web/reducers'
+import configureStore from '../web/store/configureStore'
+import {fetchPosts} from '../web/actions'
 
-function matchRoute(req, res) {
-  const store = createStore(reducers)
+async function matchRoute(req, res) {
+  const store = configureStore()
+  await store.dispatch(fetchPosts())
   return new Promise((resolve, reject) => {
     match(
       { routes, location: req.url },
@@ -25,7 +27,8 @@ function matchRoute(req, res) {
               <Provider store={store}>
                 <RouterContext {...renderProps} />
               </Provider>
-            )
+            ),
+            store
           })
         } else {
           // res.status(404).send('Not found')

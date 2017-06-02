@@ -1,24 +1,7 @@
 import React from 'react'
 import css from './Home.module.scss'
 import { connect } from 'react-redux'
-
-function loadPosts() {
-  return (dispatch, getState) => {
-    const {posts} = getState()
-    if (posts.data != null) {
-      return
-    }
-    dispatch(fetchPosts())
-  }
-}
-
-function fetchPosts() {
-  return {
-    type: 'LOAD_POSTS',
-    payload: fetch('https://jsonplaceholder.typicode.com/posts?userId=1')
-      .then(r => r.json())
-  }
-}
+import {loadPosts} from '../actions'
 
 class Home extends React.Component {
   state = {data: null}
