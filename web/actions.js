@@ -4,7 +4,7 @@ export function loadPosts() {
     if (posts.data != null) {
       return
     }
-    dispatch(fetchPosts())
+    return dispatch(fetchPosts())
   }
 }
 

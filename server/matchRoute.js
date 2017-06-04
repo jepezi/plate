@@ -6,13 +6,13 @@ import {Provider} from 'react-redux'
 import configureStore from '../web/store/configureStore'
 import {fetchPosts} from '../web/actions'
 
-async function matchRoute(req, res) {
+function matchRoute(req, res) {
   const store = configureStore()
-  await store.dispatch(fetchPosts())
+  // await store.dispatch(fetchPosts())
   return new Promise((resolve, reject) => {
     match(
       { routes, location: req.url },
-      (error, redirectLocation, renderProps) => {
+      async (error, redirectLocation, renderProps) => {
         if (error) {
           resolve({ error })
         } else if (redirectLocation) {
@@ -22,6 +22,16 @@ async function matchRoute(req, res) {
             }
           })
         } else if (renderProps) {
+          // Find all static method called `fetchData` and execute, then wait for all promises to resolve. Then resolve with element. At this point, the store is filled with state already.
+          const prefetchMethods = renderProps.components
+            .filter(c => c.fetchData)
+            .reduce((acc, c) => acc.concat(c.fetchData), [])
+
+          const promises = prefetchMethods
+            .map(prefetch => prefetch(store))
+
+          await Promise.all(promises)
+
           resolve({
             element: (
               <Provider store={store}>

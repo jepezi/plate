@@ -2,12 +2,13 @@ import React from 'react'
 import css from './Home.module.scss'
 import { connect } from 'react-redux'
 import {loadPosts} from '../actions'
+import fetchData from '../fetchData'
 
 class Home extends React.Component {
-  state = {data: null}
-  componentDidMount() {
-    this.props.dispatch(loadPosts())
-  }
+  // state = {data: null}
+  // componentDidMount() {
+  //   this.props.dispatch(loadPosts())
+  // }
   render() {
     const {posts} = this.props
     return (
@@ -48,6 +49,12 @@ function mapState(s) {
   }
 }
 
-export default connect(
+const Connected = connect(
   mapState,
 )(Home)
+
+const Fetched = fetchData((store) => {
+  return store.dispatch(loadPosts())
+})(Connected)
+
+export default Fetched
