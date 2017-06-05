@@ -5,10 +5,6 @@ import {loadPosts} from '../actions'
 import fetchData from '../fetchData'
 
 class Home extends React.Component {
-  // state = {data: null}
-  // componentDidMount() {
-  //   this.props.dispatch(loadPosts())
-  // }
   render() {
     const {posts} = this.props
     return (
@@ -34,7 +30,7 @@ class Home extends React.Component {
         <p>loading...</p>
       )
     }
-    const result = posts.data.map(e => {
+    const result = posts.data.data.viewer.posts.map(e => {
       return (
         <div key={`post_${e.title}`}>{e.title}</div>
       )

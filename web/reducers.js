@@ -20,7 +20,6 @@ function posts(state = {}, action) {
       data: null,
     }
   case 'LOAD_POSTS_FULFILLED':
-    console.warn('fulfilled')
     return {
       isRejected: false,
       data: action.payload,
