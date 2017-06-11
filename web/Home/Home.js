@@ -3,10 +3,10 @@ import css from './Home.module.scss'
 import { connect } from 'react-redux'
 import {loadPosts} from '../actions'
 import fetchData from '../fetchData'
+import { gql, graphql } from 'react-apollo'
 
 class Home extends React.Component {
   render() {
-    const {posts} = this.props
     return (
       <div>
         <div className={css.pug}>
@@ -19,18 +19,19 @@ class Home extends React.Component {
     )
   }
   _renderPosts() {
-    const {posts} = this.props
-    if (posts.isRejected) {
+    const {data: {viewer, error}} = this.props
+    if (error != null) {
       return (
         <p>There is error</p>
       )
     }
-    if (posts.data == null) {
+    if (viewer == null) {
       return (
         <p>loading...</p>
       )
     }
-    const result = posts.data.data.viewer.posts.map(e => {
+    console.warn(this.props)
+    const result = viewer.posts.map(e => {
       return (
         <div key={`post_${e.title}`}>{e.title}</div>
       )
@@ -39,18 +40,33 @@ class Home extends React.Component {
   }
 }
 
-function mapState(s) {
-  return {
-    posts: s.posts,
+const WithData = graphql(gql`
+  query {
+    viewer {
+      id
+      posts {
+        id
+        title
+        description
+      }
+    }
   }
-}
+`)(Home)
 
-const Connected = connect(
-  mapState,
-)(Home)
+export default WithData
 
-const Fetched = fetchData((store) => {
-  return store.dispatch(loadPosts())
-})(Connected)
-
-export default Fetched
+// function mapState(s) {
+//   return {
+//     posts: s.posts,
+//   }
+// }
+//
+// const Connected = connect(
+//   mapState,
+// )(Home)
+//
+// const Fetched = fetchData((store) => {
+//   return store.dispatch(loadPosts())
+// })(Connected)
+//
+// export default Fetched
