@@ -30,7 +30,6 @@ class Home extends React.Component {
         <p>loading...</p>
       )
     }
-    console.warn(this.props)
     const result = viewer.posts.map(e => {
       return (
         <div key={`post_${e.title}`}>{e.title}</div>

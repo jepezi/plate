@@ -1,6 +1,6 @@
-import {createStore, applyMiddleware} from 'redux'
+import {createStore, applyMiddleware, combineReducers} from 'redux'
 import promiseMiddleware from 'redux-promise-middleware'
-import reducers from '../reducers'
+import {counter, posts} from '../reducers'
 
 function thunk({ dispatch, getState }) {
   return next => action =>
@@ -9,11 +9,15 @@ function thunk({ dispatch, getState }) {
       next(action)
 }
 
-export default function configureStore(initialState) {
+export default function configureStore({initialState, client}) {
   const store = createStore(
-    reducers,
+    combineReducers({
+      posts,
+      counter,
+      apollo: client.reducer(),
+    }),
     initialState,
-    applyMiddleware(thunk, promiseMiddleware())
+    applyMiddleware(client.middleware(), thunk, promiseMiddleware())
   )
   return store
 }

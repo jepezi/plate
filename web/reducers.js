@@ -1,6 +1,6 @@
 import {combineReducers} from 'redux'
 
-function counter(state = 0, action) {
+export function counter(state = 0, action) {
   switch (action.type) {
   case 'INCREMENT':
     return state + 1
@@ -11,7 +11,7 @@ function counter(state = 0, action) {
   }
 }
 
-function posts(state = {}, action) {
+export function posts(state = {}, action) {
   switch (action.type) {
   case 'LOAD_POSTS_PENDING':
     console.warn('pending')

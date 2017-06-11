@@ -5,9 +5,20 @@ import {createStore} from 'redux'
 import {Provider} from 'react-redux'
 import configureStore from '../web/store/configureStore'
 import {fetchPosts} from '../web/actions'
+import { ApolloClient, createNetworkInterface, ApolloProvider, getDataFromTree } from 'react-apollo'
 
 function matchRoute(req, res) {
-  const store = configureStore()
+  const client = new ApolloClient({
+    ssrMode: true,
+    networkInterface: createNetworkInterface({
+      uri: 'http://localhost:8000/api/graphql',
+      // opts: {
+      //   credentials: 'same-origin',
+      //   headers: req.headers,
+      // },
+    }),
+  })
+  const store = configureStore({client})
   // await store.dispatch(fetchPosts())
   return new Promise((resolve, reject) => {
     match(
@@ -31,13 +42,16 @@ function matchRoute(req, res) {
             .map(prefetch => prefetch(store))
 
           await Promise.all(promises)
+          const element = (
+            <ApolloProvider client={client} store={store}>
+              <RouterContext {...renderProps} />
+            </ApolloProvider>
+          )
+
+          await getDataFromTree(element)
 
           resolve({
-            element: (
-              <Provider store={store}>
-                <RouterContext {...renderProps} />
-              </Provider>
-            ),
+            element,
             store
           })
         } else {
