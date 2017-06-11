@@ -1,10 +1,7 @@
 import React from 'react'
 import { match, RouterContext } from 'react-router'
 import routes from '../web/routes'
-import {createStore} from 'redux'
-import {Provider} from 'react-redux'
 import configureStore from '../web/store/configureStore'
-import {fetchPosts} from '../web/actions'
 import { ApolloClient, createNetworkInterface, ApolloProvider, getDataFromTree } from 'react-apollo'
 
 function matchRoute(req, res) {
@@ -19,7 +16,6 @@ function matchRoute(req, res) {
     }),
   })
   const store = configureStore({client})
-  // await store.dispatch(fetchPosts())
   return new Promise((resolve, reject) => {
     match(
       { routes, location: req.url },
