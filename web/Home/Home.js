@@ -1,8 +1,5 @@
 import React from 'react'
 import css from './Home.module.scss'
-import { connect } from 'react-redux'
-import {loadPosts} from '../actions'
-import fetchData from '../fetchData'
 import { gql, graphql } from 'react-apollo'
 
 class Home extends React.Component {
