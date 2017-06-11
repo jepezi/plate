@@ -3,7 +3,6 @@ import React from 'react'
 import ReactDOM from 'react-dom'
 import {match, Router, browserHistory} from 'react-router'
 import routes from './routes'
-import { Provider } from 'react-redux'
 import configureStore from './store/configureStore'
 import { ApolloClient, ApolloProvider, createNetworkInterface } from 'react-apollo'
 
