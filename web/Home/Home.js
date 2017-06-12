@@ -16,13 +16,13 @@ class Home extends React.Component {
     )
   }
   _renderPosts() {
-    const {data: {viewer, error}} = this.props
+    const {data: {viewer, error, loading}} = this.props
     if (error != null) {
       return (
         <p>There is error</p>
       )
     }
-    if (viewer == null) {
+    if (loading) {
       return (
         <p>loading...</p>
       )
