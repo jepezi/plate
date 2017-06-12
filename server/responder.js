@@ -10,7 +10,7 @@ const filepath = path.resolve(paths.public, 'ssr.html')
 const markup = getMarkupWithAssets(filepath)
 
 module.exports = function(res) {
-  return ({ error, redirect, status, element, store }) => {
+  return ({ error, redirect, status, content, data }) => {
     if (error) {
       return res.status(500).send(error.message)
     }
@@ -18,11 +18,9 @@ module.exports = function(res) {
       return res.redirect(302, redirect.url)
     }
 
-    const CONTENT = ReactDOMServer.renderToString(element)
-    const DATA = store.getState()
     const html = markup
-      .replace('__CONTENT__', CONTENT)
-      .replace('__DATA__', serialize(DATA))
+      .replace('__CONTENT__', content)
+      .replace('__DATA__', serialize(data))
     return res.send(html)
   }
 }

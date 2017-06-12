@@ -1,4 +1,5 @@
 import React from 'react'
+const ReactDOMServer = require('react-dom/server')
 import { match, RouterContext } from 'react-router'
 import routes from '../web/routes'
 import configureStore from '../web/store/configureStore'
@@ -33,11 +34,10 @@ function matchRoute(req, res) {
           const prefetchMethods = renderProps.components
             .filter(c => c.fetchData)
             .reduce((acc, c) => acc.concat(c.fetchData), [])
-
           const promises = prefetchMethods
             .map(prefetch => prefetch(store))
-
           await Promise.all(promises)
+
           const element = (
             <ApolloProvider client={client} store={store}>
               <RouterContext {...renderProps} />
@@ -46,9 +46,12 @@ function matchRoute(req, res) {
 
           await getDataFromTree(element)
 
+          const content = ReactDOMServer.renderToString(element)
+          const data = store.getState()
+
           resolve({
-            element,
-            store
+            content,
+            data
           })
         } else {
           // res.status(404).send('Not found')
