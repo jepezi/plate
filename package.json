@@ -10,8 +10,8 @@
     "clean": "rimraf ./public/build",
     "prebuild": "npm run clean",
     "build": "NODE_ENV=production npm-run-all build-client build-server",
-    "build-client": "webpack --config config/webpack.prod.js --progress",
-    "build-server": "webpack --config config/webpack.server.js --progress",
+    "build-client": "webpack --config config/webpack.prod.js --progress --display-optimization-bailout",
+    "build-server": "webpack --config config/webpack.server.js --progress --display-optimization-bailout",
     "serve-prod-csr": "NODE_ENV=production SSR=0 npm run serve",
     "serve-prod-ssr": "NODE_ENV=production SSR=1 npm run serve"
   },
@@ -38,7 +38,7 @@
     "sass-loader": "^6.0.5",
     "style-loader": "^0.17.0",
     "url-loader": "^0.5.8",
-    "webpack": "^2.5.1",
+    "webpack": "^3.0.0",
     "webpack-dev-server": "^2.4.5",
     "webpack-node-externals": "^1.6.0"
   },
