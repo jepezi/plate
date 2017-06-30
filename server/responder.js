@@ -20,7 +20,7 @@ module.exports = function(res) {
 
     const html = markup
       .replace('__CONTENT__', content)
-      .replace('__DATA__', serialize(data))
+      .replace('__DATA__', serialize(data, { isJSON: true }))
     return res.send(html)
   }
 }

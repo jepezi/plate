@@ -21,6 +21,26 @@ class FetcherBase {
   }
 }
 
+export class ServerFetcher extends FetcherBase {
+  constructor(url) {
+    super(url);
+
+    this.payloads = [];
+  }
+
+  async fetch(...args) {
+    const i = this.payloads.length;
+    this.payloads.push(null);
+    const payload = await super.fetch(...args);
+    this.payloads[i] = payload;
+    return payload;
+  }
+
+  toJSON() {
+    return this.payloads;
+  }
+}
+
 export class ClientFetcher extends FetcherBase {
   constructor(url, payloads) {
     super(url)

@@ -80,7 +80,11 @@ const server = {
           'stage-2',
           'react'
         ],
-        plugins: [transformRuntime]
+        plugins: [
+          'relay',
+          transformRuntime,
+          'transform-es2015-classes'
+        ]
       }
     }
   ]
