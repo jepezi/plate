@@ -1,32 +1,32 @@
 import React from 'react'
+import Route from 'found/lib/Route'
+import { graphql } from 'react-relay'
+
 import App from './App/App'
 
-function loadRoute(cb) {
-  return (module) => cb(null, module.default)
-}
-
-function errorLoadRoute(err) {
-  console.log("Chunk loading failed", err)
-}
-
-const routes = {
+const routes = [{
   path: '/',
-  component: App,
-  indexRoute: {
-    // component: Home
-    getComponent(nextState, cb) {
-      import('./Home/Home').then(loadRoute(cb)).catch(errorLoadRoute)
+  Component: App,
+  children: [
+    {
+      getComponent: () => (
+        import('./Home/Home').then(module => module.default)
+      ),
+      query: graphql`
+        query routes_Home_Query {
+          viewer {
+            ...Home_viewer
+          }
+        }
+      `
     },
-  },
-  childRoutes: [
     {
       path: 'about',
-      // component: About
-      getComponent(nextState, cb) {
-        import('./About/About').then(loadRoute(cb)).catch(errorLoadRoute)
-      },
+      getComponent: () => (
+        import('./About/About').then(module => module.default)
+      ),
     },
   ]
-}
+}]
 
 export default routes

@@ -35,7 +35,7 @@ const dev = {
       loader: 'babel-loader',
       options: {
         presets: babelPresets.concat(['react-hmre']),
-        plugins: [transformRuntime]
+        plugins: ['relay', transformRuntime]
       }
     }
   ]
@@ -50,6 +50,7 @@ const prod = {
       options: {
         presets: babelPresets,
         plugins: [
+          'relay',
           transformRuntime,
           'transform-react-inline-elements',
           'transform-react-pure-class-to-function',

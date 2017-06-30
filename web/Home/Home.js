@@ -1,6 +1,7 @@
 import React from 'react'
 import css from './Home.module.scss'
-import { gql, graphql } from 'react-apollo'
+// import { gql, graphql } from 'react-apollo'
+import { createFragmentContainer, graphql } from 'react-relay'
 
 class Home extends React.Component {
   render() {
@@ -16,17 +17,19 @@ class Home extends React.Component {
     )
   }
   _renderPosts() {
-    const {data: {viewer, error, loading}} = this.props
-    if (error != null) {
-      return (
-        <p>There is error</p>
-      )
-    }
-    if (loading) {
-      return (
-        <p>loading...</p>
-      )
-    }
+    console.warn(this.props)
+    // const {data: {viewer, error, loading}} = this.props
+    const {viewer} = this.props
+    // if (error != null) {
+    //   return (
+    //     <p>There is error</p>
+    //   )
+    // }
+    // if (loading) {
+    //   return (
+    //     <p>loading...</p>
+    //   )
+    // }
     const result = viewer.posts.map(e => {
       return (
         <div key={`post_${e.title}`}>{e.title}</div>
@@ -36,9 +39,10 @@ class Home extends React.Component {
   }
 }
 
-const WithData = graphql(gql`
-  query {
-    viewer {
+export default createFragmentContainer(
+  Home,
+  graphql`
+    fragment Home_viewer on Viewer {
       id
       posts {
         id
@@ -46,23 +50,20 @@ const WithData = graphql(gql`
         description
       }
     }
-  }
-`)(Home)
+  `,
+)
 
-export default WithData
-
-// function mapState(s) {
-//   return {
-//     posts: s.posts,
+// const WithData = graphql(gql`
+//   query {
+//     viewer {
+//       id
+//       posts {
+//         id
+//         title
+//         description
+//       }
+//     }
 //   }
-// }
+// `)(Home)
 //
-// const Connected = connect(
-//   mapState,
-// )(Home)
-//
-// const Fetched = fetchData((store) => {
-//   return store.dispatch(loadPosts())
-// })(Connected)
-//
-// export default Fetched
+// export default WithData

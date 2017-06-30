@@ -1,32 +1,25 @@
 import './index.scss'
 import React from 'react'
 import ReactDOM from 'react-dom'
-import {match, Router, browserHistory} from 'react-router'
 import routes from './routes'
-import configureStore from './store/configureStore'
-import { ApolloClient, ApolloProvider, createNetworkInterface } from 'react-apollo'
+// import configureStore from './store/configureStore'
 
-const networkInterface = createNetworkInterface({
-  uri: 'http://localhost:8000/api/graphql'
+import BrowserProtocol from 'farce/lib/BrowserProtocol'
+import createFarceRouter from 'found/lib/createFarceRouter'
+import {historyMiddlewares, render, createResolver} from './router'
+import {ClientFetcher} from './fetcher'
+
+const Router = createFarceRouter({
+  historyProtocol: new BrowserProtocol(),
+  historyMiddlewares,
+  routeConfig: routes,
+  render,
 })
 
-const client = new ApolloClient({
-  networkInterface: networkInterface
-})
+const fetcher = new ClientFetcher('http://localhost:8000/api/graphql')
+const resolver = createResolver(fetcher)
 
-const store = configureStore({initialState: window.__REDUXDATA__, client})
-// store.subscribe(() => console.warn(store.getState()))
-// console.warn(store.getState())
-// store.dispatch({type: 'INCREMENT'})
-
-match(
-  { history: browserHistory, routes },
-  (error, redirectLocation, renderProps) => {
-    ReactDOM.render(
-      <ApolloProvider client={client} store={store}>
-        <Router {...renderProps} />
-      </ApolloProvider>,
-      document.getElementById('app')
-    )
-  }
+ReactDOM.render(
+  <Router resolver={resolver} />,
+  document.getElementById('app'),
 )

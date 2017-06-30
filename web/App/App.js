@@ -1,7 +1,8 @@
 import React from 'react'
 import cx from 'classnames'
 import css from './App.module.scss'
-import {Link} from 'react-router'
+import Link from 'found/lib/Link'
+import { createFragmentContainer, graphql } from 'react-relay'
 
 class App extends React.Component {
   render() {
