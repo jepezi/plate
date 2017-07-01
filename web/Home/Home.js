@@ -17,7 +17,6 @@ class Home extends React.Component {
     )
   }
   _renderPosts() {
-    console.warn(this.props)
     // const {data: {viewer, error, loading}} = this.props
     const {viewer} = this.props
     // if (error != null) {

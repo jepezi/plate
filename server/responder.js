@@ -1,6 +1,4 @@
 const path = require('path')
-const React = require('react')
-const ReactDOMServer = require('react-dom/server')
 const serialize = require('serialize-javascript')
 const getMarkupWithAssets = require('./getMarkupWithAssets')
 const paths = require('../config/paths')
@@ -10,7 +8,7 @@ const filepath = path.resolve(paths.public, 'ssr.html')
 const markup = getMarkupWithAssets(filepath)
 
 module.exports = function(res) {
-  return ({ error, redirect, status, content, data }) => {
+  return ({ error, redirect, status, content, data, relayData }) => {
     if (error) {
       return res.status(500).send(error.message)
     }
@@ -19,8 +17,9 @@ module.exports = function(res) {
     }
 
     const html = markup
-      .replace('__CONTENT__', content)
-      .replace('__DATA__', serialize(data, { isJSON: true }))
+      .replace('___CONTENT___', content)
+      .replace('___DATA___', serialize(data, { isJSON: true }))
+      .replace('___RELAYDATA___', serialize(relayData, { isJSON: true }))
     return res.send(html)
   }
 }

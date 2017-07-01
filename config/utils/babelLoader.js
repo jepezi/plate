@@ -35,7 +35,7 @@ const dev = {
       loader: 'babel-loader',
       options: {
         presets: babelPresets.concat(['react-hmre']),
-        plugins: ['relay', transformRuntime]
+        plugins: ['relay', transformRuntime, 'transform-es2015-classes']
       }
     }
   ]

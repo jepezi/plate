@@ -10,4 +10,10 @@ export function createResolver(fetcher) {
   return new Resolver(environment)
 }
 
-export const render = createRender({});
+export const render = createRender({
+  renderError: ({ error }) => (
+    <div>
+      {error.status === 404 ? 'Not found' : 'Error'}
+    </div>
+  ),
+})
