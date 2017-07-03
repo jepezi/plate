@@ -13,7 +13,7 @@ import { getStoreRenderArgs, resolver, RedirectException } from 'found'
 import { RouterProvider } from 'found/lib/server'
 import { Provider } from 'react-redux'
 
-async function matchRoute(req, res) {
+async function matchRoute(req: any, res: any) {
   const fetcher = new ServerFetcher('http://localhost:8000/api/graphql')
   const store = createReduxStore({
     historyProtocol: new ServerProtocol(req.url),
