@@ -4,6 +4,21 @@ interface Node {
   id: ID!
 }
 
+# Information about pagination in a connection.
+type PageInfo {
+  # When paginating forwards, are there more items?
+  hasNextPage: Boolean!
+
+  # When paginating backwards, are there more items?
+  hasPreviousPage: Boolean!
+
+  # When paginating backwards, the cursor to continue.
+  startCursor: String
+
+  # When paginating forwards, the cursor to continue.
+  endCursor: String
+}
+
 # Post
 type Post implements Node {
   # The ID of an object
@@ -14,6 +29,28 @@ type Post implements Node {
 
   # Post description
   description: String
+
+  # Published Date
+  published_at: String
+}
+
+# A connection to a list of items.
+type PostConnection {
+  # Information to aid in pagination.
+  pageInfo: PageInfo!
+
+  # A list of edges.
+  edges: [PostEdge]
+  totalCount: Int
+}
+
+# An edge in a connection.
+type PostEdge {
+  # The item at the end of the edge
+  node: Post
+
+  # A cursor for use in pagination
+  cursor: String!
 }
 
 type Query {
@@ -35,7 +72,5 @@ type Viewer implements Node {
 
   # name
   name: String
-
-  # name
-  posts: [Post]
+  posts(after: String, first: Int, before: String, last: Int): PostConnection
 }

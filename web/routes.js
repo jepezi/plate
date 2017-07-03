@@ -13,12 +13,13 @@ const routes = [{
         import('./Home/Home').then(module => module.default)
       ),
       query: graphql`
-        query routes_Home_Query {
+        query routes_Home_Query($count: Int, $cursor: String) {
           viewer {
             ...Home_viewer
           }
         }
-      `
+      `,
+      prepareVariables: params => ({ ...params, count: 10, cursor: null })
     },
     {
       path: 'about',
