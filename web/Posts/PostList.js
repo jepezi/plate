@@ -1,6 +1,7 @@
 import React from 'react'
 import css from './PostList.module.scss'
 import { createFragmentContainer, createPaginationContainer, graphql } from 'react-relay'
+import Post from './Post'
 
 class PostList extends React.Component {
   render() {
@@ -15,7 +16,10 @@ class PostList extends React.Component {
     const {viewer} = this.props
     const result = viewer.posts.edges.map(e => {
       return (
-        <div key={`post_${e.node.title}`}>{e.node.title}</div>
+        <Post
+          key={`post_${e.node.title}`}
+          data={e.node}
+        />
       )
     })
     return result

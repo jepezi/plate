@@ -1,7 +1,7 @@
 import React from 'react'
 import css from './Home.module.scss'
 import { createFragmentContainer, graphql } from 'react-relay'
-import PostList from '../PostList/PostList.js'
+import PostList from '../Posts/PostList.js'
 
 class Home extends React.Component {
   render() {
