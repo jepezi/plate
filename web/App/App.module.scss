@@ -3,14 +3,21 @@
 .container {
   font-size: $body-font-size;
   background-color: $body-bg-color;
+  width: 1000px;
 }
 .padding20 {
   padding: 20px;
 }
 .heading1 {
   font-size: 32px;
+  padding-left: 12px;
+  padding-top: 12px;
 }
 
 .content {
   //
+}
+.pug {
+  background: $body-bg-color url('./pug-cover.jpg') no-repeat left center;
+  height: 200px;
 }

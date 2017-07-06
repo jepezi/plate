@@ -12,11 +12,13 @@ class App extends React.Component {
     )
     const headingCss = cx(
       css.heading1,
-      'blue',
+      'white',
     )
     return (
       <div className={containerCss}>
-        <h1 className={headingCss}>App</h1>
+        <div className={css.pug}>
+          <div className={headingCss}>Pug Club Blog</div>
+        </div>
         <ul>
           <li><Link to="/">Home</Link></li>
           <li><Link to="/about">About</Link></li>

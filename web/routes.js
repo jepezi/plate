@@ -19,7 +19,17 @@ const routes = [{
           }
         }
       `,
-      prepareVariables: params => ({ ...params, count: 10, cursor: null })
+      prepareVariables: params => ({ ...params, count: 10, cursor: null }),
+      // render: ({ Component, props }) => {
+      //   console.warn(Component, props)
+      //   return (
+      //     Component && props ? (
+      //       <Component {...props} />
+      //     ) : (
+      //       <div><small>Loading</small></div>
+      //     )
+      //   )
+      // },
     },
     {
       path: 'about',

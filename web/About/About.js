@@ -7,7 +7,10 @@ class About extends React.Component {
       <div>
         <h1>About</h1>
         <div>
-          <button onClick={this.props.handleClick}>Click {this.props.count}</button>
+          <div>
+            We are pug lover community. All things pugs.
+          </div>
+          <button onClick={this.props.handleClick}>Click me for fun {this.props.count}</button>
         </div>
       </div>
     )

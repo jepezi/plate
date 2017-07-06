@@ -4,11 +4,20 @@ import { createFragmentContainer, createPaginationContainer, graphql } from 'rea
 import Post from './Post'
 
 class PostList extends React.Component {
+  constructor(props) {
+    super(props)
+    this.state = {isLoading: this.props.relay.isLoading()}
+  }
   render() {
+    const {isLoading} = this.state
     return (
       <div>
-        <button onClick={this._loadMore}>More</button>
         {this._renderPosts()}
+        <div style={{marginTop: 16}}>
+          <button onClick={this._loadMore}>
+            More {isLoading ? '...' : ''}
+          </button>
+        </div>
       </div>
     )
   }
@@ -25,15 +34,20 @@ class PostList extends React.Component {
     return result
   }
   _loadMore = () => {
-    console.warn(this.props.relay.hasMore(), this.props.relay.isLoading());
+    // console.warn(this.props.relay.hasMore(), this.props.relay.isLoading());
     if (!this.props.relay.hasMore() || this.props.relay.isLoading()) {
       return;
     }
 
+    this.setState(s => ({isLoading: true}))
+
     this.props.relay.loadMore(
       10, // Fetch the next 10 feed items
       e => {
-        console.log(e);
+        this.setState(s => ({isLoading: false}))
+        if (e != null) {
+          console.log('error _loadMore', e)
+        }
       },
     );
   }
@@ -66,14 +80,14 @@ export default createPaginationContainer(
     `,
     {
     getFragmentVariables(prevVars, totalCount) {
-      console.warn('getFragmentVariables', prevVars, totalCount);
+      // console.warn('getFragmentVariables', prevVars, totalCount);
       return {
         ...prevVars,
         count: totalCount,
       };
     },
     getVariables(props, vars, fragmentVariables) {
-      console.warn('getVariables', vars, fragmentVariables);
+      // console.warn('getVariables', vars, fragmentVariables);
       return {
         count: vars.count,
         cursor: vars.cursor,
