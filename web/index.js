@@ -2,14 +2,14 @@
 import './index.scss'
 import React from 'react'
 import ReactDOM from 'react-dom'
-import createReduxStore from './createReduxStore'
 import { Provider } from 'react-redux'
 import BrowserProtocol from 'farce/lib/BrowserProtocol'
-import {render, createResolver} from './router'
-import {ClientFetcher} from './fetcher'
-
 import createConnectedRouter from 'found/lib/createConnectedRouter'
 import getStoreRenderArgs from 'found/lib/getStoreRenderArgs'
+
+import createReduxStore from './createReduxStore'
+import {render, createResolver} from './router'
+import {ClientFetcher} from './fetcher'
 
 const store = createReduxStore({
   historyProtocol: new BrowserProtocol(),

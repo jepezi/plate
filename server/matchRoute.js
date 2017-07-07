@@ -1,24 +1,21 @@
 // @flow
 import React from 'react'
 import ReactDOMServer from 'react-dom/server'
-import { match, RouterContext } from 'react-router'
-import routes from '../web/routes'
-import configureStore from '../web/store/configureStore'
-import { getFarceResult } from 'found/lib/server'
-import { ServerFetcher } from '../web/fetcher'
-import {historyMiddlewares, render, createResolver} from '../web/router'
-import createReduxStore from '../web/createReduxStore'
+import { Provider } from 'react-redux'
 import { Actions as FarceActions, ServerProtocol } from 'farce'
 import { getStoreRenderArgs, resolver, RedirectException } from 'found'
-import { RouterProvider } from 'found/lib/server'
-import { Provider } from 'react-redux'
+import { getFarceResult, RouterProvider } from 'found/lib/server'
+
+import createReduxStore from '../web/createReduxStore'
+import {render, createResolver} from '../web/router'
+import { ServerFetcher } from '../web/fetcher'
 
 async function matchRoute(req: any, res: any) {
-  const fetcher = new ServerFetcher('http://localhost:8000/api/graphql')
   const store = createReduxStore({
     historyProtocol: new ServerProtocol(req.url),
   })
   const matchContext = { store }
+  const fetcher = new ServerFetcher('http://localhost:8000/api/graphql')
   let renderArgs
 
   try {
